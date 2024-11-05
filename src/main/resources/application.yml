@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: hello-concurrent-control
+  datasource:
+    url: jdbc:mysql://mysql:3306/mydatabase
+    username: myuser
+    password: secret
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true

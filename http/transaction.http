@@ -1,0 +1,26 @@
+### POST TRANSACTION
+
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{
+    "sourceAccount": "1234",
+    "targetAccount": "2345",
+    "amount" : 100
+}
+
+### POST TRANSACTION
+
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{
+  "sourceAccount": "2345",
+  "targetAccount": "1234",
+  "amount" : 100
+}
+
+### GET ACCOUNT
+
+GET http://localhost:8080/transaction/1234
+Content-Type: application/json
