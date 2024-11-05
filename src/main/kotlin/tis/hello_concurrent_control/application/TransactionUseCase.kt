@@ -27,8 +27,7 @@ class TransactionUseCase(
      */
     @PointTransactionLock(source = "#sourceAccount.sequence", target = "#targetAccount.sequence")
     fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
-        val issuerAccountSequences = issuerService.findIssuers().map { it.accountSequence }
-        if (!issuerAccountSequences.contains(sourceAccount)) {
+        if (!issuerService.isIssuer(sourceAccount)) {
             val pointHistories = historyService.findAccountHistories(sourceAccount)
             if (pointHistories.balance < amount) {
                 throw IllegalArgumentException("잔액이 부족합니다.")

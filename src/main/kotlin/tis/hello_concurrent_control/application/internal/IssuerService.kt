@@ -6,9 +6,9 @@ import tis.hello_concurrent_control.domain.Issuer
 
 @Service
 class IssuerService {
-    fun findIssuers(): List<Issuer> {
-        return listOf(
-            Issuer(AccountSequence("1234"))
-        )
+    fun isIssuer(accountSequence: AccountSequence): Boolean {
+        return listOf(Issuer(AccountSequence("1234")))
+            .map { it.accountSequence }
+            .contains(accountSequence)
     }
 }
