@@ -1,4 +1,4 @@
-package ui.internal
+package tis.hello_concurrent_control.ui.internal
 
 data class PointHistoriesResponse(
     val account: String,

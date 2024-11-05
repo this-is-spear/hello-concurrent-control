@@ -1,4 +1,4 @@
-package ui
+package tis.hello_concurrent_control.ui.internal
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -9,9 +9,6 @@ import tis.hello_concurrent_control.application.HistoryUseCase
 import tis.hello_concurrent_control.application.TransactionUseCase
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
-import ui.internal.PointHistoriesResponse
-import ui.internal.PointTransactionResponse
-import ui.internal.TransactionRequest
 
 @RestController
 class TransactionController(

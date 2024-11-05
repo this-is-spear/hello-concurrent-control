@@ -6,9 +6,10 @@ import org.springframework.modulith.docs.Documenter
 
 
 class HelloConcurrentControlApplicationModuleTests {
+    private val modules = ApplicationModules.of(HelloConcurrentControlApplication::class.java)
+
     @Test
     fun verifyModularity() {
-        val modules = ApplicationModules.of(HelloConcurrentControlApplication::class.java)
         modules.verify()
     }
 
@@ -17,7 +18,6 @@ class HelloConcurrentControlApplicationModuleTests {
      */
     @Test
     fun createModuleDocumentation() {
-        val modules = ApplicationModules.of(HelloConcurrentControlApplication::class.java)
         Documenter(modules)
             .writeDocumentation()
             .writeIndividualModulesAsPlantUml()
