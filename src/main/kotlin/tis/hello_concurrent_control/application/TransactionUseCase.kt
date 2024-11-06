@@ -12,7 +12,6 @@ import tis.hello_concurrent_control.domain.PointTransaction
 @Service
 class TransactionUseCase(
     private val transactionService: TransactionService,
-    private val aggregateHistoryService: AggregateHistoryService,
     private val issuerService: IssuerService,
 ) {
     /**
@@ -25,18 +24,12 @@ class TransactionUseCase(
      * @param sourceAccount 전송하는 계좌
      * @param targetAccount 받는 계좌
      */
-    @PointTransactionLock(source = "#sourceAccount.sequence", target = "#targetAccount.sequence")
     fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
         require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-
         if (!issuerService.isPointIssuer(sourceAccount)) {
-            val pointHistories = aggregateHistoryService.findAccountHistories(sourceAccount)
-            if (pointHistories.balance < amount) {
-                throw IllegalArgumentException("잔액이 부족합니다.")
-            }
+            transactionService.transaction(sourceAccount, targetAccount, amount)
+        }else {
+            issuerService.issue(sourceAccount, targetAccount, amount)
         }
-
-        val pointTransaction = PointTransaction(sourceAccount, targetAccount, amount)
-        transactionService.saveTransaction(pointTransaction)
     }
 }
