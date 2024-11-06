@@ -10,8 +10,6 @@ interface JpaPointTransactionRepository : JpaRepository<PointTransaction, Long>,
     override fun <S : PointTransaction?> save(entity: S & Any): S & Any
     override fun findBySourceAccountSequence(sourceAccountSequence: AccountSequence): List<PointTransaction>
     override fun findByTargetAccountSequence(targetAccountSequence: AccountSequence): List<PointTransaction>
-    override fun countBySourceAccountSequence(sourceAccountSequence: AccountSequence): Long
-    override fun countByTargetAccountSequence(targetAccountSequence: AccountSequence): Long
     override fun findBySourceAccountSequence(
         sourceAccountSequence: AccountSequence,
         pageable: Pageable,

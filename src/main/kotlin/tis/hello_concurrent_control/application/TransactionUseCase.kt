@@ -1,17 +1,14 @@
 package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
-import tis.hello_concurrent_control.application.internal.AggregateHistoryService
 import tis.hello_concurrent_control.application.internal.IssuerService
-import tis.hello_concurrent_control.application.internal.TransactionService
-import tis.hello_concurrent_control.concurrent.PointTransactionLock
+import tis.hello_concurrent_control.application.internal.ProduceService
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
-import tis.hello_concurrent_control.domain.PointTransaction
 
 @Service
 class TransactionUseCase(
-    private val transactionService: TransactionService,
+    private val produceService: ProduceService,
     private val issuerService: IssuerService,
 ) {
     /**
@@ -26,10 +23,6 @@ class TransactionUseCase(
      */
     fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
         require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-        if (!issuerService.isPointIssuer(sourceAccount)) {
-            transactionService.transaction(sourceAccount, targetAccount, amount)
-        }else {
-            issuerService.issue(sourceAccount, targetAccount, amount)
-        }
+        produceService.produceTransactionRequest(sourceAccount, targetAccount, amount)
     }
 }

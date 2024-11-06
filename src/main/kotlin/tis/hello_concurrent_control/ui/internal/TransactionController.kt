@@ -1,5 +1,6 @@
 package tis.hello_concurrent_control.ui.internal
 
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,8 +16,11 @@ class TransactionController(
     private val transactionUseCase: TransactionUseCase,
     private val historyUseCase: HistoryUseCase,
 ) {
+    private val log = LoggerFactory.getLogger(javaClass)
+
     @PostMapping("/transaction")
     fun transaction(@RequestBody transactionRequest: TransactionRequest) {
+//        log.info("transactionRequest: $transactionRequest")
         require(transactionRequest.sourceAccount != transactionRequest.targetAccount) { "출발지와 목적지가 같을 수 없습니다." }
         require(transactionRequest.amount > 0) { "금액은 0보다 커야 합니다." }
         val sourceAccount = AccountSequence(transactionRequest.sourceAccount)
