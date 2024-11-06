@@ -10,7 +10,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Component
 import tis.hello_concurrent_control.concurrent.PointTransactionLock
-import java.util.concurrent.TimeUnit
 
 @Aspect
 @Component
@@ -22,49 +21,13 @@ class PointTransactionLockAspect(
 
     @Around("@annotation(pointTransactionLock)")
     fun executeWithLock(joinPoint: ProceedingJoinPoint, pointTransactionLock: PointTransactionLock): Any? {
-        require(pointTransactionLock.source != pointTransactionLock.target) { "source and target must be different" }
+        check(pointTransactionLock.source != pointTransactionLock.target) { "source and target must be different" }
         val sourceKey = parseLockKey(pointTransactionLock.source, joinPoint)
         val targetKey = parseLockKey(pointTransactionLock.target, joinPoint)
-
-        val firstKey by lazy {
-            if (sourceKey < targetKey) {
-                sourceKey
-            } else {
-                targetKey
-            }
-        }
-
-        val secondKey by lazy {
-            if (sourceKey < targetKey) {
-                targetKey
-            } else {
-                sourceKey
-            }
-        }
-
-        val firstLock = redissonClient.getLock(firstKey)
-        return try {
-            val firstAcquired = firstLock.tryLock(3L, 3L, TimeUnit.SECONDS)
-            if (!firstAcquired) {
-                throw IllegalStateException()
-            }
-
-            val secondLock = redissonClient.getLock(secondKey)
-            try {
-                val secondAcquired = secondLock.tryLock(3L, 3L, TimeUnit.SECONDS)
-                if (!secondAcquired) {
-                    throw IllegalStateException()
-                }
-
+        val keyPair = keyPair(sourceKey, targetKey)
+        return lock(redissonClient.getLock(keyPair.first)) {
+            lock(redissonClient.getLock(keyPair.second)) {
                 joinPoint.proceed()
-            } finally {
-                if (secondLock.isHeldByCurrentThread) {
-                    secondLock.unlock()
-                }
-            }
-        } finally {
-            if (firstLock.isHeldByCurrentThread) {
-                firstLock.unlock()
             }
         }
     }
