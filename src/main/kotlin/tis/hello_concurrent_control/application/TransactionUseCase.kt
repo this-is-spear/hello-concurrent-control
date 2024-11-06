@@ -1,7 +1,7 @@
 package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
-import tis.hello_concurrent_control.application.internal.HistoryService
+import tis.hello_concurrent_control.application.internal.AggregateHistoryService
 import tis.hello_concurrent_control.application.internal.IssuerService
 import tis.hello_concurrent_control.application.internal.TransactionService
 import tis.hello_concurrent_control.concurrent.PointTransactionLock
@@ -12,7 +12,7 @@ import tis.hello_concurrent_control.domain.PointTransaction
 @Service
 class TransactionUseCase(
     private val transactionService: TransactionService,
-    private val historyService: HistoryService,
+    private val aggregateHistoryService: AggregateHistoryService,
     private val issuerService: IssuerService,
 ) {
     /**
@@ -28,7 +28,7 @@ class TransactionUseCase(
     @PointTransactionLock(source = "#sourceAccount.sequence", target = "#targetAccount.sequence")
     fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
         if (!issuerService.isIssuer(sourceAccount)) {
-            val pointHistories = historyService.findAccountHistories(sourceAccount)
+            val pointHistories = aggregateHistoryService.findAccountHistories(sourceAccount)
             if (pointHistories.balance < amount) {
                 throw IllegalArgumentException("잔액이 부족합니다.")
             }

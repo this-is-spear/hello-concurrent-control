@@ -1,4 +1,4 @@
-package tis.hello_concurrent_control.concurrent.internal
+package tis.hello_concurrent_control.config.internal
 
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient
