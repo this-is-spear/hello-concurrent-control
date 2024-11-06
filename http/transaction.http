@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "sourceAccount": "1234",
-    "targetAccount": "2345",
+    "targetAccount": "3456",
     "amount" : 100
 }
 
@@ -15,7 +15,7 @@ POST http://localhost:8080/transaction
 Content-Type: application/json
 
 {
-  "sourceAccount": "2345",
+  "sourceAccount": "3456",
   "targetAccount": "1234",
   "amount" : 100
 }

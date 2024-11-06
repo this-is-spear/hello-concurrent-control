@@ -27,7 +27,9 @@ class TransactionUseCase(
      */
     @PointTransactionLock(source = "#sourceAccount.sequence", target = "#targetAccount.sequence")
     fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
-        if (!issuerService.isIssuer(sourceAccount)) {
+        require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
+
+        if (!issuerService.isPointIssuer(sourceAccount)) {
             val pointHistories = aggregateHistoryService.findAccountHistories(sourceAccount)
             if (pointHistories.balance < amount) {
                 throw IllegalArgumentException("잔액이 부족합니다.")
