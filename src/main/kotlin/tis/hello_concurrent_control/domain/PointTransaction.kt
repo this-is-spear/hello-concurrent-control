@@ -18,6 +18,7 @@ class PointTransaction(
     val targetAccountSequence: AccountSequence,
     @Embedded
     val amount: Point,
+    val createdAt: Long = System.currentTimeMillis(),
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,

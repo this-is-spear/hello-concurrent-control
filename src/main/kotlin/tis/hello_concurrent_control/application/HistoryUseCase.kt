@@ -1,7 +1,7 @@
 package tis.hello_concurrent_control.application
 
-import tis.hello_concurrent_control.application.internal.HistoryService
 import org.springframework.stereotype.Service
+import tis.hello_concurrent_control.application.internal.HistoryService
 import tis.hello_concurrent_control.domain.AccountSequence
 
 @Service

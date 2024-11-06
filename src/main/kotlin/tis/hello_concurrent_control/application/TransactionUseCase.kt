@@ -1,9 +1,9 @@
 package tis.hello_concurrent_control.application
 
+import org.springframework.stereotype.Service
 import tis.hello_concurrent_control.application.internal.HistoryService
 import tis.hello_concurrent_control.application.internal.IssuerService
 import tis.hello_concurrent_control.application.internal.TransactionService
-import org.springframework.stereotype.Service
 import tis.hello_concurrent_control.concurrent.PointTransactionLock
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point

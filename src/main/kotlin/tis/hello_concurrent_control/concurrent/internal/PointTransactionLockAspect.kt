@@ -1,18 +1,20 @@
 package tis.hello_concurrent_control.concurrent.internal
 
-import java.util.concurrent.TimeUnit
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
 import org.redisson.api.RedissonClient
+import org.springframework.core.annotation.Order
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Component
 import tis.hello_concurrent_control.concurrent.PointTransactionLock
+import java.util.concurrent.TimeUnit
 
 @Aspect
 @Component
+@Order(-1)
 class PointTransactionLockAspect(
     private val redissonClient: RedissonClient,
 ) {
@@ -23,7 +25,6 @@ class PointTransactionLockAspect(
         require(pointTransactionLock.source != pointTransactionLock.target) { "source and target must be different" }
         val sourceKey = parseLockKey(pointTransactionLock.source, joinPoint)
         val targetKey = parseLockKey(pointTransactionLock.target, joinPoint)
-        println("source: ${sourceKey}, target: ${targetKey}")
 
         val firstKey by lazy {
             if (sourceKey < targetKey) {
