@@ -9,4 +9,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
