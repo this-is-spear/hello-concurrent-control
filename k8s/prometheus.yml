@@ -13,6 +13,12 @@ data:
         metrics_path: '/actuator/prometheus'
         static_configs:
           - targets: ['host.docker.internal:8080']
+      - job_name: 'mysql'
+        metrics_path: '/actuator/prometheus'
+        static_configs:
+          - targets: ['mysq:3306']
+        relabel_configs: 
+      -
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-exporter
+spec:
+  selector:
+    matchLabels:
+      app: mysql-exporter
+  template:
+    metadata:
+      labels:
+        app: mysql-exporter
+    spec:
+      containers:
+        - name: mysql-exporter
+          image: prom/mysqld-exporter:latest
+          ports:
+            - containerPort: 9104
+          # see https://github.com/prometheus/mysqld_exporter/issues/750
+          command:
+            - "--mysqld.username=exporter:password"
+            - "--mysqld.address=mysql:3306"
+#          env:
+#            - name: DATA_SOURCE_NAME
+#              value: "exporter:password@(mysql:3306)/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-exporter
+spec:
+  selector:
+    app: mysql-exporter
+  ports:
+    - port: 9104
+      targetPort: 9104

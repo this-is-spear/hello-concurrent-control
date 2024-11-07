@@ -1,13 +1,10 @@
 package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
-import tis.hello_concurrent_control.application.internal.AggregateHistoryService
 import tis.hello_concurrent_control.application.internal.IssuerService
 import tis.hello_concurrent_control.application.internal.TransactionService
-import tis.hello_concurrent_control.concurrent.PointTransactionLock
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
-import tis.hello_concurrent_control.domain.PointTransaction
 
 @Service
 class TransactionUseCase(

@@ -3,8 +3,8 @@ import {check, sleep} from 'k6';
 
 export const options = {
     stages: [
-        {duration: '10m', target: 10}, // VU로 램프업
-        {duration: '5m', target: 10}, // VU를 유지
+        {duration: '10m', target: 100}, // VU로 램프업
+        {duration: '5m', target: 100}, // VU를 유지
         {duration: '5m', target: 0}, // 0개의 VU로 램프다운
     ],
     thresholds: {
@@ -54,7 +54,11 @@ function generateRandomNumberString() {
 
 export default function () {
     const sourceAccount = generateRandomNumberString();
-    const targetAccount = generateRandomNumberString();
+    let targetAccount = generateRandomNumberString();
+    while (sourceAccount === targetAccount) {
+        targetAccount = generateRandomNumberString();
+    }
+
     const header = {
         headers: {
             'Content-Type': 'application/json'
