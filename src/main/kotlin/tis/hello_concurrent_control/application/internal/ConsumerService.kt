@@ -4,25 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.redisson.api.RStream
 import org.redisson.api.RedissonClient
 import org.redisson.api.stream.StreamReadGroupArgs
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import tis.hello_concurrent_control.application.PointTransactionMessage
 
 const val CONSUMER = "point-transaction-consumer"
-const val GROUP = "point-transaction-group"
+const val GROUP = "point-transaction-group5"
 const val STREAM = "point-transaction"
 
 @Service
 class ConsumerService(
     private val transactionService: TransactionService,
     private val issuerService: IssuerService,
-    private val redissonClient: RedissonClient,
     private val objectMapper: ObjectMapper,
+    redissonClient: RedissonClient,
 ) {
-    private val log = LoggerFactory.getLogger(javaClass)
+    val stream: RStream<String, String> = redissonClient.getStream(STREAM)
 
     fun consumeTransactionRequest() {
-        val stream: RStream<String, String> = redissonClient.getStream(STREAM)
         val message = stream.readGroup(
             GROUP,
             CONSUMER,

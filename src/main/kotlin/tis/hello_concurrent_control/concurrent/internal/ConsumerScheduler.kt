@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service
 class ConsumerScheduler(
     private val applicationContext: ApplicationContext,
 ) {
-    @Scheduled(fixedDelay = 10)
+    @Scheduled(fixedDelay = 50)
     fun processMessages() {
         val beans = applicationContext.getBeansWithAnnotation(Service::class.java)
             .values
         beans.forEach { bean ->
             bean.javaClass.methods
-                .first { it.name == "consumeTransactionRequest" }
-                .apply {
+                .firstOrNull { it.name == "consumeTransactionRequest" }
+                ?.apply {
                     invoke(bean)
                 }
         }

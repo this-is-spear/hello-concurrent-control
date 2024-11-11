@@ -15,7 +15,7 @@ class AggregateHistoryService(
     @Transactional(readOnly = true)
     fun findAccountHistories(account: AccountSequence): PointHistories {
         val histories = pointTransactionRepository.findBySourceAccountSequence(account) +
-            pointTransactionRepository.findByTargetAccountSequence(account)
+                pointTransactionRepository.findByTargetAccountSequence(account)
         return PointHistories(account, histories.sortedBy { it.createdAt })
     }
 }

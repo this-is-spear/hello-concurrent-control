@@ -1,29 +1,31 @@
 package tis.hello_concurrent_control.application.internal
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.redisson.api.RStream
-import org.redisson.api.RedissonClient
+import org.redisson.api.RStreamReactive
+import org.redisson.api.RedissonReactiveClient
 import org.redisson.api.stream.StreamAddArgs
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import tis.hello_concurrent_control.application.PointTransactionMessage
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
 
 @Service
 class ProduceService(
-    private val redissonClient: RedissonClient,
     private val objectMapper: ObjectMapper,
+    redissonReactiveClient: RedissonReactiveClient,
 ) {
+    val stream: RStreamReactive<String, String> = redissonReactiveClient.getStream(STREAM)
+
     fun produceTransactionRequest(
         sourceAccount: AccountSequence,
         targetAccount: AccountSequence,
-        amount: Point
-    ): String {
-        val message = PointTransactionMessage(sourceAccount, targetAccount, amount)
-        val messageData: Map<String, String> = extractMessageData(message)
-        val stream: RStream<String, String> = redissonClient.getStream(STREAM)
-        val messageId = stream.add(StreamAddArgs.entries(messageData))
-        return "${messageId.id0}-${messageId.id1}"
+        amount: Point,
+    ): Mono<Void> {
+        return Mono.just(PointTransactionMessage(sourceAccount, targetAccount, amount))
+            .map { extractMessageData(it) }
+            .map { stream.add(StreamAddArgs.entries(it)) }
+            .then()
     }
 
     private fun extractMessageData(result: PointTransactionMessage) = mutableMapOf<String, String>()

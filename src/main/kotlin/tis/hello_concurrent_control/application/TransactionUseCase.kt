@@ -1,6 +1,7 @@
 package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import tis.hello_concurrent_control.application.internal.IssuerService
 import tis.hello_concurrent_control.application.internal.ProduceService
 import tis.hello_concurrent_control.domain.AccountSequence
@@ -21,8 +22,8 @@ class TransactionUseCase(
      * @param sourceAccount 전송하는 계좌
      * @param targetAccount 받는 계좌
      */
-    fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point) {
+    fun transaction(sourceAccount: AccountSequence, targetAccount: AccountSequence, amount: Point): Mono<Void> {
         require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-        produceService.produceTransactionRequest(sourceAccount, targetAccount, amount)
+        return produceService.produceTransactionRequest(sourceAccount, targetAccount, amount)
     }
 }
