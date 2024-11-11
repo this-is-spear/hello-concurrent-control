@@ -3,8 +3,8 @@ import {check, sleep} from 'k6';
 
 export const options = {
     stages: [
-        {duration: '5m', target: 100}, // VU로 램프업
-        {duration: '5m', target: 100}, // VU를 유지
+        {duration: '5m', target: 200}, // VU로 램프업
+        {duration: '10m', target: 200}, // VU를 유지
         {duration: '5m', target: 0}, // 0개의 VU로 램프다운
     ],
     thresholds: {
