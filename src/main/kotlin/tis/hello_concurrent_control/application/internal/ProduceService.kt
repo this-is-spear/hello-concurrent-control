@@ -24,7 +24,7 @@ class ProduceService(
     ): Mono<Void> {
         return Mono.just(PointTransactionMessage(sourceAccount, targetAccount, amount))
             .map { extractMessageData(it) }
-            .map { stream.add(StreamAddArgs.entries(it)) }
+            .flatMap { stream.add(StreamAddArgs.entries(it)) }
             .then()
     }
 
