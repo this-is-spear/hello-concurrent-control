@@ -16,11 +16,11 @@ Content-Type: application/json
 
 {
   "sourceAccount": "3456",
-  "targetAccount": "1234",
+  "targetAccount": "4567",
   "amount" : 100
 }
 
 ### GET ACCOUNT
 
-GET http://localhost:8080/transaction/1234
+GET http://localhost:8080/transaction/3456
 Content-Type: application/json

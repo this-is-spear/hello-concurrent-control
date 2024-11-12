@@ -10,6 +10,7 @@ import tis.hello_concurrent_control.application.HistoryUseCase
 import tis.hello_concurrent_control.application.TransactionUseCase
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
+import tis.hello_concurrent_control.transaction.reply.PointTransactionStatus
 
 @RestController
 class TransactionController(
@@ -17,7 +18,7 @@ class TransactionController(
     private val historyUseCase: HistoryUseCase,
 ) {
     @PostMapping("/transaction")
-    fun transaction(@RequestBody transactionRequest: TransactionRequest): Mono<Void> {
+    fun transaction(@RequestBody transactionRequest: TransactionRequest): Mono<PointTransactionResponse> {
         require(transactionRequest.sourceAccount != transactionRequest.targetAccount) { "출발지와 목적지가 같을 수 없습니다." }
         require(transactionRequest.amount > 0) { "금액은 0보다 커야 합니다." }
         val sourceAccount = AccountSequence(transactionRequest.sourceAccount)
@@ -32,7 +33,7 @@ class TransactionController(
         return PointHistoriesResponse(
             accountHistories.account.sequence,
             accountHistories.histories.map { history ->
-                PointTransactionResponse(
+                PointHistoryResponse(
                     history.sourceAccountSequence.sequence,
                     history.targetAccountSequence.sequence,
                     history.amount.amount,

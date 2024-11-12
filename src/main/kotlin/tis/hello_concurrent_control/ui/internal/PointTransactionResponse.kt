@@ -1,7 +1,8 @@
 package tis.hello_concurrent_control.ui.internal
 
+import tis.hello_concurrent_control.transaction.reply.PointTransactionStatus
+
 class PointTransactionResponse(
-    val fromAccount: String,
-    val toAccount: String,
-    val amount: Int,
+    val status: PointTransactionStatus,
+    val message: String
 )
