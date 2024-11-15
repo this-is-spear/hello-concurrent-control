@@ -19,13 +19,11 @@ repositories {
 	mavenCentral()
 }
 
-val redissonVersion = "3.38.1"
-
 extra["springModulithVersion"] = "1.2.4"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	implementation("org.redisson:redisson-spring-boot-starter:$redissonVersion")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -43,6 +41,7 @@ dependencies {
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:mysql")
+	testImplementation("org.testcontainers:rabbitmq")
 	testImplementation(kotlin("test"))
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

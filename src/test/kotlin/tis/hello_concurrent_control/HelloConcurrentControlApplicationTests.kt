@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import
 @SpringBootTest
 @Import(TestcontainersConfiguration::class)
 class HelloConcurrentControlApplicationTests {
-	@Test
-	fun contextLoads() {
-	}
+    @Test
+    fun contextLoads() {
+    }
 }

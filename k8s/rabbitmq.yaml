@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+              - containerPort: 5672
+                protocol: TCP
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: myuser
+            - name: RABBITMQ_DEFAULT_PASS
+              value: secret
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+    selector:
+        app: rabbitmq
+    ports:
+        - port: 5672
+          targetPort: 5672
+    type: LoadBalancer

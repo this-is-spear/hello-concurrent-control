@@ -5,14 +5,14 @@ import reactor.core.publisher.Mono
 import tis.hello_concurrent_control.application.internal.IssuerService
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
-import tis.hello_concurrent_control.transaction.reply.SubscriberService
-import tis.hello_concurrent_control.transaction.request.ProduceService
+import tis.hello_concurrent_control.transaction.reply.ReceiveAndRequestService
+import tis.hello_concurrent_control.transaction.request.SendAndReplyService
 import tis.hello_concurrent_control.ui.internal.PointTransactionResponse
 
 @Service
 class TransactionUseCase(
-    private val produceService: ProduceService,
-    private val subscriberService: SubscriberService,
+    private val sendAndReplyService: SendAndReplyService,
+    private val receiveAndRequestService: ReceiveAndRequestService,
     private val issuerService: IssuerService,
 ) {
     /**
@@ -31,8 +31,7 @@ class TransactionUseCase(
         amount: Point,
     ): Mono<PointTransactionResponse> {
         require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-        return produceService.produceTransactionRequest(sourceAccount, targetAccount, amount)
-            .flatMap { subscriberService.subscribe(it) }
+        return sendAndReplyService.produceTransactionRequest(sourceAccount, targetAccount, amount)
             .map { PointTransactionResponse(it.responseStatus, it.message) }
     }
 }
