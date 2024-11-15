@@ -16,7 +16,6 @@ spring:
     password: secret
     template:
       reply-timeout: 5000
-      default-receive-queue: reply-queue
 
 management:
   endpoints:

@@ -22,7 +22,6 @@ class RabbitmqConfiguration {
         replyQueue: Queue,
         myMessageConverter: MessageConverter,
     ): RabbitTemplate = RabbitTemplate(connectionFactory).apply {
-        setReplyTimeout(60000)
         setReplyAddress(replyQueue.name)
         setUseDirectReplyToContainer(false)
         messageConverter = myMessageConverter
