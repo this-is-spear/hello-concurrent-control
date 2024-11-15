@@ -1,12 +1,10 @@
-package tis.hello_concurrent_control.transaction.request
+package tis.hello_concurrent_control.application.internal
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
-import tis.hello_concurrent_control.transaction.PointRequestMessage
-import tis.hello_concurrent_control.transaction.PointResponseMessage
 
 @Service
 class SendAndReplyService(

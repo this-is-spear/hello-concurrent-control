@@ -10,6 +10,7 @@ import tis.hello_concurrent_control.application.HistoryUseCase
 import tis.hello_concurrent_control.application.TransactionUseCase
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
+import tis.hello_concurrent_control.application.PointTransactionResponse
 
 @RestController
 class TransactionController(

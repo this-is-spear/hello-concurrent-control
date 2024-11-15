@@ -1,4 +1,4 @@
-package tis.hello_concurrent_control.transaction
+package tis.hello_concurrent_control.application.internal
 
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point

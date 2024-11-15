@@ -1,13 +1,9 @@
-package tis.hello_concurrent_control.transaction.reply
+package tis.hello_concurrent_control.application.internal
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.stereotype.Service
-import tis.hello_concurrent_control.application.internal.IssuerService
-import tis.hello_concurrent_control.application.internal.TransactionService
-import tis.hello_concurrent_control.transaction.PointRequestMessage
-import tis.hello_concurrent_control.transaction.PointResponseMessage
-import tis.hello_concurrent_control.transaction.PointTransactionStatus
+import tis.hello_concurrent_control.domain.PointTransactionStatus
 
 @Service
 class ReceiveAndRequestService(
