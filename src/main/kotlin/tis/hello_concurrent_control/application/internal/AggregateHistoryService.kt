@@ -6,8 +6,6 @@ import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.PointHistories
 import tis.hello_concurrent_control.repository.PointTransactionRepository
 
-private const val COUNT = 2
-
 @Service
 class AggregateHistoryService(
     private val pointTransactionRepository: PointTransactionRepository,

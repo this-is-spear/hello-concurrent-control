@@ -1,10 +1,6 @@
-package tis.hello_concurrent_control.application.internal
+package tis.hello_concurrent_control.domain
 
 import org.springframework.stereotype.Service
-import tis.hello_concurrent_control.domain.AccountSequence
-import tis.hello_concurrent_control.domain.Issuer
-import tis.hello_concurrent_control.domain.Point
-import tis.hello_concurrent_control.domain.PointTransaction
 import tis.hello_concurrent_control.repository.PointTransactionRepository
 
 @Service

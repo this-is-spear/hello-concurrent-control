@@ -2,7 +2,7 @@ package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import tis.hello_concurrent_control.application.internal.IssuerService
+import tis.hello_concurrent_control.domain.IssuerService
 import tis.hello_concurrent_control.application.internal.SendAndReplyService
 import tis.hello_concurrent_control.domain.AccountSequence
 import tis.hello_concurrent_control.domain.Point
