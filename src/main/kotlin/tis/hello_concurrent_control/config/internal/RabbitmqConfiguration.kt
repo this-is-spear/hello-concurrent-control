@@ -47,7 +47,6 @@ class RabbitmqConfiguration {
         replyQueue: Queue,
     ): DirectReplyToMessageListenerContainer = DirectReplyToMessageListenerContainer(connectionFactory).apply {
         setQueues(replyQueue)
-        setExclusive(true)
         setIdleEventInterval(10_000)
         setMessageListener(rabbitTemplate)
     }
