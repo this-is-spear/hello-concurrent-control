@@ -12,7 +12,7 @@ class ReceiveAndRequestService(
     private val transactionService: TransactionService,
     private val issuerService: IssuerService,
 ) {
-    @RabbitListener(queues = ["request-queue"])
+    @RabbitListener(queues = ["queue-1", "queue-2", "queue-3"])
     @SendTo("reply-queue")
     fun subscribe(pointRequestMessage: PointRequestMessage): PointResponseMessage {
         return try {

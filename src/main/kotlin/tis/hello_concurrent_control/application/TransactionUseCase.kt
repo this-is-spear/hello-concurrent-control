@@ -2,9 +2,9 @@ package tis.hello_concurrent_control.application
 
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import tis.hello_concurrent_control.domain.IssuerService
 import tis.hello_concurrent_control.application.internal.SendAndReplyService
 import tis.hello_concurrent_control.domain.AccountSequence
+import tis.hello_concurrent_control.domain.IssuerService
 import tis.hello_concurrent_control.domain.Point
 
 @Service
@@ -27,8 +27,15 @@ class TransactionUseCase(
         targetAccount: AccountSequence,
         amount: Point,
     ): Mono<PointTransactionResponse> {
-        require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-        return sendAndReplyService.transaction(sourceAccount, targetAccount, amount)
-            .map { PointTransactionResponse(it.responseStatus, it.message) }
+        return Mono.just(
+            Triple(sourceAccount, targetAccount, amount)
+        ).filter { (sourceAccount, targetAccount, _) ->
+            require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
+            true
+        }.flatMap {
+            sendAndReplyService.transaction(sourceAccount, targetAccount, amount)
+        }.map {
+            PointTransactionResponse(it.responseStatus, it.message)
+        }
     }
 }
