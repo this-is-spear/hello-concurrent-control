@@ -28,7 +28,7 @@ class TransactionUseCase(
         amount: Point,
     ): Mono<PointTransactionResponse> {
         require(!issuerService.isPointIssuer(sourceAccount) || !issuerService.isPointIssuer(targetAccount)) { "출발지와 목적지는 모두 발급 계좌일 수 없습니다." }
-        return sendAndReplyService.produceTransactionRequest(sourceAccount, targetAccount, amount)
+        return sendAndReplyService.transaction(sourceAccount, targetAccount, amount)
             .map { PointTransactionResponse(it.responseStatus, it.message) }
     }
 }

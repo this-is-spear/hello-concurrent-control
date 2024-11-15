@@ -10,7 +10,7 @@ import tis.hello_concurrent_control.domain.Point
 class SendAndReplyService(
     private val rabbitTemplate: RabbitTemplate,
 ) {
-    fun produceTransactionRequest(
+    fun transaction(
         sourceAccount: AccountSequence,
         targetAccount: AccountSequence,
         amount: Point,
