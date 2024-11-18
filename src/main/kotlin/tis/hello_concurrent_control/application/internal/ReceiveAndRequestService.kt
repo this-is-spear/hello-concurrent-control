@@ -1,7 +1,5 @@
 package tis.hello_concurrent_control.application.internal
 
-import org.springframework.amqp.rabbit.annotation.RabbitListener
-import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.stereotype.Service
 import tis.hello_concurrent_control.domain.IssuerService
 import tis.hello_concurrent_control.domain.PointTransactionStatus
@@ -12,8 +10,6 @@ class ReceiveAndRequestService(
     private val transactionService: TransactionService,
     private val issuerService: IssuerService,
 ) {
-    @RabbitListener(queues = ["queue-1", "queue-2", "queue-3"])
-    @SendTo("reply-queue")
     fun subscribe(pointRequestMessage: PointRequestMessage): PointResponseMessage {
         return try {
             val sourceAccount = pointRequestMessage.sourceAccount

@@ -6,19 +6,18 @@ import tis.hello_concurrent_control.application.internal.PointRequestMessage
 import tis.hello_concurrent_control.application.internal.PointResponseMessage
 import java.util.concurrent.CompletableFuture
 import kotlin.math.abs
-import org.springframework.amqp.core.Queue
 
 
 @Component
 class ShardedMessageService(
     private val asyncRabbitTemplate: AsyncRabbitTemplate,
-    private val queues: List<Queue>,
+    private val queueNames: List<String>,
 ) {
 
     fun sendWithConsistentHashing(key: String, message: PointRequestMessage): CompletableFuture<PointResponseMessage> {
-        val queueParameterising = queues.filter { !it.name.startsWith("reply-") }
+        val queueParameterising = queueNames.filter { it.startsWith("reply-") }
         val shardIndex = abs(key.hashCode() % queueParameterising.size)
-        val queueName = queueParameterising[shardIndex].name
+        val queueName = queueParameterising[shardIndex]
         return asyncRabbitTemplate.convertSendAndReceive(queueName, message)
     }
 }
