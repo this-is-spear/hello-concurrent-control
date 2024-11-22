@@ -24,7 +24,7 @@ val redissonVersion = "3.38.1"
 extra["springModulithVersion"] = "1.2.4"
 
 dependencies {
-	implementation("org.redisson:redisson:$redissonVersion")
+	implementation("org.redisson:redisson-spring-boot-starter:$redissonVersion")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
