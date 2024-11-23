@@ -32,24 +32,7 @@ spec:
               value: "myuser"
             - name: MYSQL_PASSWORD
               value: "secret"
-          volumeMounts:
-            - name: mysql-init
-              mountPath: /docker-entrypoint-initdb.d
       restartPolicy: Always
-      volumes:
-        - name: mysql-init
-          configMap:
-            name: mysql-init-script
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-init-script
-data:
-  init.sql: |
-    CREATE USER 'exporter'@'%' IDENTIFIED BY 'password' WITH MAX_USER_CONNECTIONS 3;
-    GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
-    FLUSH PRIVILEGES;
 ---
 apiVersion: v1
 kind: Service

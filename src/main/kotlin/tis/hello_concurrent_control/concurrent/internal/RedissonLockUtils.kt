@@ -10,7 +10,7 @@ fun keyPair(key1: String, key2: String) = if (key1 < key2) {
 }
 
 fun <T> lock(key: RLock, function: () -> T) = try {
-    val lock = key.tryLock(3L, 3L, TimeUnit.SECONDS)
+    val lock = key.tryLock(30L, 30L, TimeUnit.SECONDS)
     check(lock) { "lock failed" }
     function()
 } finally {

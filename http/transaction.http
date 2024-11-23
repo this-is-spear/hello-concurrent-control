@@ -22,5 +22,5 @@ Content-Type: application/json
 
 ### GET ACCOUNT
 
-GET http://localhost:8080/transaction/EST
+GET http://localhost:8080/transaction/1234
 Content-Type: application/json

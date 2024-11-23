@@ -3,8 +3,8 @@ import {check, sleep} from 'k6';
 
 export const options = {
     stages: [
-        {duration: '10m', target: 100}, // VU로 램프업
-        {duration: '5m', target: 100}, // VU를 유지
+        {duration: '10m', target: 200}, // VU로 램프업
+        {duration: '5m', target: 200}, // VU를 유지
         {duration: '5m', target: 0}, // 0개의 VU로 램프다운
     ],
     thresholds: {
@@ -38,26 +38,9 @@ function isValidNumber(numStr) {
     return !isSequential;
 }
 
-function generateRandomNumberString() {
-    while (true) {
-        const numbers = Array.from({length: 10}, (_, i) => i.toString());
-        for (let i = numbers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-        }
-        const result = numbers.slice(0, 4).join('');
-        if (isValidNumber(result)) {
-            return result;
-        }
-    }
-}
-
 export default function () {
-    const sourceAccount = generateRandomNumberString();
-    let targetAccount = generateRandomNumberString();
-    while (sourceAccount === targetAccount) {
-        targetAccount = generateRandomNumberString();
-    }
+    const sourceAccount = 3456;
+    let targetAccount = 7890;
 
     const header = {
         headers: {

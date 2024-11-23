@@ -23,12 +23,8 @@ class PointTransactionLockAspect(
     fun executeWithLock(joinPoint: ProceedingJoinPoint, pointTransactionLock: PointTransactionLock): Any? {
         check(pointTransactionLock.source != pointTransactionLock.target) { "source and target must be different" }
         val sourceKey = parseLockKey(pointTransactionLock.source, joinPoint)
-        val targetKey = parseLockKey(pointTransactionLock.target, joinPoint)
-        val keyPair = keyPair(sourceKey, targetKey)
-        return lock(redissonClient.getLock(keyPair.first)) {
-            lock(redissonClient.getLock(keyPair.second)) {
+        return lock(redissonClient.getLock(sourceKey)) {
                 joinPoint.proceed()
-            }
         }
     }
 
